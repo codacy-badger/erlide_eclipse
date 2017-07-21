@@ -8,7 +8,6 @@ class ProjectPreferencesWizardPageFactory {
 
     val static Map<ProjectConfigType, Class<? extends ProjectPreferencesWizardPage>> PAGES = #{
         ProjectConfigType.INTERNAL -> InternalProjectPreferencesWizardPage,
-        ProjectConfigType.EMAKE -> EmakeProjectPreferencesWizardPage,
         ProjectConfigType.REBAR -> RebarProjectPreferencesWizardPage
     }
 

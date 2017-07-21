@@ -15,6 +15,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.annotation.NonNull;
+import org.erlide.engine.model.root.ProjectConfigurator;
 import org.erlide.util.ErlLogger;
 import org.erlide.util.IDisposable;
 
@@ -22,15 +23,16 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 
-public class FileProjectConfigurator
-        implements IProjectConfigurator, IResourceChangeListener, IDisposable {
+public class FileProjectConfigurator extends ProjectConfigurator
+        implements IResourceChangeListener, IDisposable {
 
     private final String filePath;
     @NonNull
     private final ProjectConfigurationSerializer serializer;
 
-    public FileProjectConfigurator(final ProjectConfigurationSerializer serializer,
-            final String filePath) {
+    public FileProjectConfigurator(final String name,
+            final ProjectConfigurationSerializer serializer, final String filePath) {
+        super(name, filePath);
         Preconditions.checkArgument(filePath != null);
         Preconditions.checkArgument(serializer != null);
         this.serializer = serializer;

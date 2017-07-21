@@ -175,7 +175,6 @@ public class ProjectCreator {
 
         switch (configType) {
         case REBAR:
-        case EMAKE:
             final IFile cfg = newProjectHandle.getFile(configType.getConfigName());
             final String contents = getConfigContent(info, configType);
             final CreateFileOperation fop = new CreateFileOperation(cfg, null,
@@ -198,8 +197,6 @@ public class ProjectCreator {
         System.out.println("TO DO: get config content " + info2 + " " + configType);
 
         switch (configType) {
-        case EMAKE:
-            return "";
         case REBAR:
             return "";
         default:

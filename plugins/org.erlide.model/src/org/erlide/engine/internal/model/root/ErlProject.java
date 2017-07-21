@@ -42,6 +42,7 @@ import org.erlide.engine.model.SourcePathUtils;
 import org.erlide.engine.model.builder.BuilderProperties;
 import org.erlide.engine.model.erlang.SourceKind;
 import org.erlide.engine.model.root.ErlangProjectProperties;
+import org.erlide.engine.model.root.IErlApplication;
 import org.erlide.engine.model.root.IErlElementLocator;
 import org.erlide.engine.model.root.IErlExternalRoot;
 import org.erlide.engine.model.root.IErlFolder;
@@ -68,18 +69,18 @@ import com.google.common.collect.Lists;
  * Handle for an Erlang project.
  *
  * <p>
- * A Erlang Project internally maintains a devpath that corresponds to the
- * project's classpath. The classpath may include source folders from the
- * current project; archives in the current project, other projects, and the
- * local file system; and binary folders (output location) of other projects.
- * The Erlang Model presents source elements corresponding to output .beam files
- * in other projects, and thus uses the devpath rather than the classpath (which
- * is really a compilation path). The devpath mimics the classpath, except has
- * source folder entries in place of output locations in external projects.
+ * A Erlang Project internally maintains a devpath that corresponds to the project's
+ * classpath. The classpath may include source folders from the current project; archives
+ * in the current project, other projects, and the local file system; and binary folders
+ * (output location) of other projects. The Erlang Model presents source elements
+ * corresponding to output .beam files in other projects, and thus uses the devpath rather
+ * than the classpath (which is really a compilation path). The devpath mimics the
+ * classpath, except has source folder entries in place of output locations in external
+ * projects.
  *
  * <p>
- * Each ErlProject has a NameLookup facility that locates elements on by name,
- * based on the devpath.
+ * Each ErlProject has a NameLookup facility that locates elements on by name, based on
+ * the devpath.
  *
  * @see IErlProject
  */
@@ -199,10 +200,9 @@ public class ErlProject extends Openable
     }
 
     /**
-     * Returns true if this handle represents the same Erlang project as the
-     * given handle. Two handles represent the same project if they are
-     * identical or if they represent a project with the same underlying
-     * resource and occurrence counts.
+     * Returns true if this handle represents the same Erlang project as the given handle.
+     * Two handles represent the same project if they are identical or if they represent a
+     * project with the same underlying resource and occurrence counts.
      *
      * @see ErlElement#equals(Object)
      */
@@ -707,6 +707,11 @@ public class ErlProject extends Openable
     @Override
     public void setBuilderProperties(final BuilderProperties props) {
         builderProperties = props;
+    }
+
+    @Override
+    public Collection<IErlApplication> getApplications() throws ErlModelException {
+        return Lists.newArrayList();
     }
 
 }

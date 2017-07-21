@@ -52,7 +52,7 @@ public class ErlangEclipseBuilder extends IncrementalProjectBuilder {
     private boolean validateBuildConfiguration(final IErlProject erlProject) {
         final ProjectConfigType config = erlProject.getConfigType();
         final BuilderTool tool = erlProject.getBuilderProperties().getBuilderTool();
-        if (!config.matchesTool(tool)) {
+        if (!tool.matchesConfig(config)) {
             final String msg = String.format(
                     "Project's builder tool %s and configuration %s don't match", tool,
                     config);

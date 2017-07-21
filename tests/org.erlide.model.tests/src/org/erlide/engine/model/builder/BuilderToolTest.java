@@ -13,7 +13,7 @@ public class BuilderToolTest {
 
     @Test
     public void toolsMapMatchesConfigMap() {
-        final Map<ProjectConfigType, Set<BuilderTool>> map = ProjectConfigType.configToolsMap;
+        final Map<ProjectConfigType, Set<BuilderTool>> map = BuilderTool.configToolsMap;
         final Map<BuilderTool, Set<ProjectConfigType>> inverse = MapUtils.inverseSet(map);
         assertThat(BuilderTool.toolConfigsMap).isEqualTo(inverse);
     }

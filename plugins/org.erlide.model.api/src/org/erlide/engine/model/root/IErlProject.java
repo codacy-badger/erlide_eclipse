@@ -22,35 +22,37 @@ import org.erlide.runtime.runtimeinfo.RuntimeInfo;
 import org.erlide.runtime.runtimeinfo.RuntimeVersion;
 
 /**
- * An Erlang project represents a view of a project resource in terms of Erlang
- * elements such as applications, modules, attributes and functions. A project
- * may contain several applications, which contain modules. An application
- * corresponds to an underlying folder.
+ * An Erlang project represents a view of a project resource in terms of Erlang elements
+ * such as applications, modules, attributes and functions. A project may contain several
+ * applications, which contain modules. An application corresponds to an underlying
+ * folder.
  * <p>
- * Each Erlang project has a code path, defining which folders contain source
- * code and where required libraries are located. Each Erlang project also has
- * an output location, defining where the builder writes <code>.beam</code>
- * files. A project that references modules in another project can access the
- * modules by including the required project in a code path entry. The Erlang
- * model will present the source elements in the required project; when
- * building, the compiler will use the corresponding generated beam files from
- * the required project's output location(s). The code path format is a sequence
- * of code path entries describing the location and contents of applications.
+ * Each Erlang project has a code path, defining which folders contain source code and
+ * where required libraries are located. Each Erlang project also has an output location,
+ * defining where the builder writes <code>.beam</code> files. A project that references
+ * modules in another project can access the modules by including the required project in
+ * a code path entry. The Erlang model will present the source elements in the required
+ * project; when building, the compiler will use the corresponding generated beam files
+ * from the required project's output location(s). The code path format is a sequence of
+ * code path entries describing the location and contents of applications.
  * </p>
- * Erlang project elements need to be opened before they can be navigated or
- * manipulated. The children of a Erlang project are the package fragment roots
- * that are defined by the classpath and contained in this project (in other
- * words, it does not include package fragment roots for other projects). </p>
+ * Erlang project elements need to be opened before they can be navigated or manipulated.
+ * The children of a Erlang project are the package fragment roots that are defined by the
+ * classpath and contained in this project (in other words, it does not include package
+ * fragment roots for other projects).
+ * </p>
  * <p>
  *
- * @noimplement This interface is not intended to be implemented by clients. An
- *              instance of one of these handles can be created via
+ * @noimplement This interface is not intended to be implemented by clients. An instance
+ *              of one of these handles can be created via
  *              <code>ErlangCore.create(project)</code>.
  *              </p>
  *
  * @see ErlangCore#createRoot(org.eclipse.core.resources.IProject)
  */
 public interface IErlProject extends IParent, IErlElement, IOpenable {
+
+    Collection<IErlApplication> getApplications() throws ErlModelException;
 
     Collection<IErlModule> getModules() throws ErlModelException;
 
@@ -69,8 +71,8 @@ public interface IErlProject extends IParent, IErlElement, IOpenable {
     /**
      * Returns the project's current configuration.
      * <p>
-     * Value must not be cached! It can be changed in the background when config
-     * file or preferences are edited.
+     * Value must not be cached! It can be changed in the background when config file or
+     * preferences are edited.
      * </p>
      */
     ErlangProjectProperties getProperties();

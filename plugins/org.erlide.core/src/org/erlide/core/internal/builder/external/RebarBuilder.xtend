@@ -17,7 +17,7 @@ class RebarBuilder extends ExternalBuilder {
         result
     }
 
-    override clean(IErlProject erlProject,BuildNotifier notifier) {
+    override clean(IErlProject erlProject, BuildNotifier notifier) {
         super.clean(erlProject, notifier)
     }
 

@@ -13,11 +13,10 @@ import com.google.common.collect.Sets;
 
 public enum BuilderTool {
     // @formatter:off
-    INTERNAL(null, null, ".erlbuilder"),
-    MAKE("Makefile", "make", ".make.builder"),
-    EMAKE("Emakefile", null, ".emake.builder"),
-    REBAR("rebar.config", "rebar", ".rebar.builder");
-    // @formatter:on
+	INTERNAL(null, null, ".erlbuilder"), 
+	MAKE("Makefile", "make", ".make.builder"), 
+	REBAR("rebar.config", "rebar3", ".rebar.builder");
+	// @formatter:on
 
     private final String toolMarker;
     private final String osCommand;
@@ -30,8 +29,8 @@ public enum BuilderTool {
     }
 
     /**
-     * The marker is the name of a top-level file in the project that tells us
-     * to use this tool (used mostly for auto-detection).
+     * The marker is the name of a top-level file in the project that tells us to use this
+     * tool (used mostly for auto-detection).
      */
     public String getToolMarker() {
         return toolMarker;
@@ -41,12 +40,21 @@ public enum BuilderTool {
         @Override
         public Map<BuilderTool, Set<ProjectConfigType>> apply() {
             final Map<BuilderTool, Set<ProjectConfigType>> result = Maps.newHashMap();
-            result.put(INTERNAL, Sets.newHashSet(ProjectConfigType.INTERNAL,
-                    ProjectConfigType.EMAKE, ProjectConfigType.REBAR));
-            result.put(MAKE, Sets.newHashSet(ProjectConfigType.INTERNAL,
-                    ProjectConfigType.EMAKE, ProjectConfigType.REBAR));
-            result.put(EMAKE, Sets.newHashSet(ProjectConfigType.EMAKE));
+            result.put(INTERNAL,
+                    Sets.newHashSet(ProjectConfigType.INTERNAL));
+            result.put(MAKE,
+                    Sets.newHashSet(ProjectConfigType.INTERNAL, ProjectConfigType.REBAR));
             result.put(REBAR, Sets.newHashSet(ProjectConfigType.REBAR));
+            return Maps.newEnumMap(result);
+        }
+    }.apply();
+
+    public static final Map<ProjectConfigType, Set<BuilderTool>> configToolsMap = new Functions.Function0<Map<ProjectConfigType, Set<BuilderTool>>>() {
+        @Override
+        public Map<ProjectConfigType, Set<BuilderTool>> apply() {
+            final Map<ProjectConfigType, Set<BuilderTool>> result = Maps.newHashMap();
+            result.put(ProjectConfigType.INTERNAL, Sets.newHashSet(INTERNAL, MAKE));
+            result.put(ProjectConfigType.REBAR, Sets.newHashSet(REBAR, MAKE));
             return Maps.newEnumMap(result);
         }
     }.apply();
@@ -67,9 +75,6 @@ public enum BuilderTool {
     }
 
     public String getId() {
-        // FIXME this is kind of an indirect dep on core plugin (needs to be
-        // started)
-        // ErlangCore.PLUGIN_ID
-        return "org.erlide.core" + id;
+        return id;
     }
 }

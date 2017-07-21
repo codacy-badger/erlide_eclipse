@@ -6,11 +6,12 @@ import org.erlide.runtime.runtimeinfo.RuntimeVersion;
 import org.erlide.util.ErlLogger;
 import org.osgi.service.prefs.BackingStoreException;
 
-public class PreferencesProjectConfigurator implements IProjectConfigurator {
+public class PreferencesProjectConfigurator extends ProjectConfigurator {
 
     private final IEclipsePreferences node;
 
     public PreferencesProjectConfigurator(final IEclipsePreferences node) {
+    	super(null, null);
         this.node = node;
     }
 

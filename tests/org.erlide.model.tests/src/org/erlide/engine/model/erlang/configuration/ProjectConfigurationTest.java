@@ -20,8 +20,4 @@ public class ProjectConfigurationTest extends AbstractProjectConfigurationTest {
         project.setConfigType(ProjectConfigType.INTERNAL);
     }
 
-    @Override
-    public void configCanBeParsed() {
-        // not relevant
-    }
 }

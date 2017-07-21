@@ -10,10 +10,11 @@ import org.erlide.engine.model.root.ErlangProjectProperties
 import org.erlide.engine.model.root.IProjectConfigurator
 import org.erlide.engine.model.root.IProjectConfiguratorFactory
 import org.erlide.engine.model.root.ProjectConfigType
+import org.erlide.engine.model.root.ProjectConfiguratorFactory
 import org.erlide.engine.model.root.ProjectPreferencesConstants
 import org.erlide.runtime.api.RuntimeCore
 import org.erlide.runtime.runtimeinfo.RuntimeInfo
-import org.erlide.engine.model.root.ProjectConfiguratorFactory
+import org.erlide.util.ErlLogger
 
 @Accessors
 class NewProjectData extends ErlangProjectProperties {
@@ -49,7 +50,7 @@ class NewProjectData extends ErlangProjectProperties {
     def void loadFromFile() {
         val File f = new File(getLocation().append(getConfigType().getConfigName()).toPortableString())
         if (f.exists()) {
-            System.out.println("» LOAD " + f.getAbsolutePath())
+            ErlLogger.debug("» LOAD " + f.getAbsolutePath())
             val IProjectConfigurator config = factory.getConfig(getConfigType(),
                 new File(getLocation().toPortableString()))
             val ErlangProjectProperties props = config.getConfiguration()
@@ -62,16 +63,16 @@ class NewProjectData extends ErlangProjectProperties {
     }
 
     def detectProjectConfig() {
-        println("» DETECT builder config")
+        ErlLogger.debug("» DETECT builder config")
         if (location !== null) {
-            println("DETECT builder config")
+            ErlLogger.debug("DETECT builder config")
             val directory = new File(location.toPortableString)
             if (directory.directory && directory.exists) {
                 val persister = factory.getConfig(configType, directory)
-                println("PERSISTER " + persister)
+                ErlLogger.debug("PERSISTER " + persister)
                 if (persister !== null) {
                     val props = persister.getConfiguration()
-                    println("detected PROPS: " + props)
+                    ErlLogger.debug("detected PROPS: " + props)
                 }
             }
         }

@@ -46,6 +46,4 @@ public abstract class AbstractProjectConfigurationTest {
         return Util.getInputStreamAsString(res.getContents(), Charsets.ISO_8859_1.name());
     }
 
-    public abstract void configCanBeParsed() throws CoreException;
-
 }

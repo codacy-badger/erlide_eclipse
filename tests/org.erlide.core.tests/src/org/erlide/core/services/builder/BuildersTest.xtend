@@ -36,9 +36,6 @@ import org.erlide.core.internal.builder.ExternalBuilder
 	static String HDR = '''
 		-define(HDR, hrd).
 	'''
-	static String EMAKEFILE = '''
-		{'src/*', [{i, "include"}, {outdir, "ebin"}]}.
-	'''
 	static String MAKEFILE = '''
 		ERLFLAGS= -pa $(CURDIR)/ebin
 		REBAR=$(shell which rebar)
@@ -68,7 +65,6 @@ import org.erlide.core.internal.builder.ExternalBuilder
 		ErlideTestUtils.createFile(prj, "include/hdr.hrl", HDR)
 
 		ErlideTestUtils.createFile(prj, "src/builders.app.src", APP)
-		ErlideTestUtils.createFile(prj, "Emakefile", EMAKEFILE)
 		ErlideTestUtils.createFile(prj, "Makefile", MAKEFILE)
 
 		prj.refreshLocal(IResource.DEPTH_INFINITE, null)
@@ -94,10 +90,6 @@ import org.erlide.core.internal.builder.ExternalBuilder
 
 	@Test def void makeBuilderShouldWork() throws CoreException {
 		testBuilder(BuilderTool.MAKE)
-	}
-
-	@Test def void emakeBuilderShouldWork() throws CoreException {
-		testBuilder(BuilderTool.EMAKE)
 	}
 
 	@Test def void rebarBuilderShouldWork() throws CoreException {

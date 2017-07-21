@@ -65,9 +65,4 @@ public class InternalProjectConfigurationTest extends AbstractProjectConfigurati
         assertThat(actual).isEqualTo(convertListString(expected));
     }
 
-    @Override
-    public void configCanBeParsed() {
-        // not relevant
-    }
-
 }

@@ -31,7 +31,6 @@ public class ProjectConfiguratorFactory implements IProjectConfiguratorFactory {
             result = new PreferencesProjectConfigurator(node);
             break;
         case REBAR:
-        case EMAKE:
             result = getConfig(configType, new File(
                     project.getWorkspaceProject().getLocation().toPortableString()));
         }
@@ -47,7 +46,6 @@ public class ProjectConfiguratorFactory implements IProjectConfiguratorFactory {
             result = new PreferencesProjectConfigurator(null);
             break;
         case REBAR:
-        case EMAKE:
             final String configName = configType.getConfigName();
             final String[] resources = directory.list(new FilenameFilter() {
                 @Override
@@ -62,12 +60,7 @@ public class ProjectConfiguratorFactory implements IProjectConfiguratorFactory {
             final String path = directory.getAbsolutePath() + "/" + resources[0];
             switch (configType) {
             case REBAR:
-                result = new FileProjectConfigurator(new RebarConfigurationSerializer(),
-                        path);
-                break;
-            case EMAKE:
-                result = new FileProjectConfigurator(new EmakeConfigurationSerializer(),
-                        path);
+                result = new RebarProjectConfigurator(path);
                 break;
             default:
                 break;

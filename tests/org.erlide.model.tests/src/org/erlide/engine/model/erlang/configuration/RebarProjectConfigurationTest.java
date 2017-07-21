@@ -17,7 +17,6 @@ import org.junit.Test;
 
 public class RebarProjectConfigurationTest extends AbstractProjectConfigurationTest {
 
-    @Override
     @Test
     public void configCanBeParsed() throws CoreException {
         project.setConfigType(ProjectConfigType.REBAR);
