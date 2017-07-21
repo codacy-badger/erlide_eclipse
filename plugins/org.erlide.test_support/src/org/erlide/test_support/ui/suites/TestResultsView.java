@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
+import org.erlide.runtime.events.ErlangEventHandler;
 import org.erlide.test_support.ui.suites.TestCaseData.FailReason;
 import org.erlide.test_support.ui.suites.TestCaseData.FailStackItem;
 import org.erlide.ui.util.DisplayUtils;
@@ -33,26 +34,31 @@ import com.ericsson.otp.erlang.OtpErlangObject;
 import com.ericsson.otp.erlang.OtpErlangTuple;
 import com.google.common.collect.Lists;
 
-public class TestResultsView extends ViewPart {
+public abstract class TestResultsView extends ViewPart {
     public static final String VIEW_ID = "org.erlide.test_support.views.testresults";
 
-    private final TestEventHandler eventHandler;
-    private Composite control;
+    private ErlangEventHandler eventHandler;
+    protected Composite control;
 
-    private TreeViewer treeViewer;
+    protected TreeViewer treeViewer;
 
-    private final List<TestCaseData> events;
-    private Label label;
+    protected final List<TestCaseData> events;
+    protected Label label;
 
     public TestResultsView() {
         // FIXME which backend?
-        eventHandler = new TestEventHandler(this);
+        eventHandler = new EunitEventHandler(this);
         events = Lists.newArrayList();
     }
 
-    public TestEventHandler getEventHandler() {
+    public ErlangEventHandler getEventHandler() {
+        if (eventHandler == null) {
+            eventHandler = createEventHandler();
+        }
         return eventHandler;
     }
+
+    protected abstract ErlangEventHandler createEventHandler();
 
     @Override
     public void createPartControl(final Composite parent) {
@@ -135,7 +141,7 @@ public class TestResultsView extends ViewPart {
         });
     }
 
-    private void handleEvent(final OtpErlangObject msg)
+    protected void handleEvent(final OtpErlangObject msg)
             throws OtpParserException, OtpErlangException {
         final OtpErlangTuple tuple = (OtpErlangTuple) msg;
         final String tag = ((OtpErlangAtom) tuple.elementAt(0)).atomValue();

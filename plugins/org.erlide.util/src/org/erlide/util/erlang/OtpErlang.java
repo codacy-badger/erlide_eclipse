@@ -247,7 +247,8 @@ public class OtpErlang {
             return new String(((OtpErlangBinary) target).binaryValue());
         } else if (target instanceof OtpErlangList) {
             try {
-                return ((OtpErlangList) target).stringValue();
+                final OtpErlangList list = (OtpErlangList) target;
+                return list.stringValue();
             } catch (final OtpErlangException e) {
                 return target.toString();
             }

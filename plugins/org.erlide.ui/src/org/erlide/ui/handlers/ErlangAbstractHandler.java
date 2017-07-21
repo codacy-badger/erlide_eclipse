@@ -30,6 +30,8 @@ import org.erlide.util.event_tracer.ErlideEventTracer;
 
 public abstract class ErlangAbstractHandler extends AbstractHandler {
 
+    protected ISelection workbenchSelection;
+
     protected boolean validateEditorInputState(final ITextEditor editor) {
         if (editor instanceof ITextEditorExtension2) {
             return ((ITextEditorExtension2) editor).validateEditorInputState();
@@ -97,6 +99,7 @@ public abstract class ErlangAbstractHandler extends AbstractHandler {
 
     @Override
     public Object execute(final ExecutionEvent event) throws ExecutionException {
+        workbenchSelection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 
         final ITextEditor textEditor = (ITextEditor) HandlerUtil.getActiveEditor(event);
         if (!validateEditorInputState(textEditor)) {
@@ -137,15 +140,15 @@ public abstract class ErlangAbstractHandler extends AbstractHandler {
     }
 
     /**
-     * Extend the selection that the action will work on. Default
-     * implementation, extend to whole lines. Might be overridden.
+     * Extend the selection that the action will work on. Default implementation, extend
+     * to whole lines. Might be overridden.
      *
      * @param document
      *            text {@link IDocument}
      * @param selection
      *            original selection
-     * @return new {@link ITextSelection} extended to the whole lines
-     *         intersected by selection
+     * @return new {@link ITextSelection} extended to the whole lines intersected by
+     *         selection
      */
     public static ITextSelection extendSelectionToWholeLines(final IDocument document,
             final ITextSelection selection) {

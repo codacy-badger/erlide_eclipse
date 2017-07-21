@@ -9,7 +9,7 @@
    </category>
    <view
          category="erlide.test.views"
-         class="org.erlide.test_support.ui.suites.TestResultsView"
+         class="org.erlide.test_support.ui.suites.EunitResultsView"
          id="org.erlide.test_support.views.testresults"
          name="Test results"
          restorable="true">
@@ -207,6 +207,16 @@
       <command
             id="org.erlide.test_support.toggleTrace"
             name="Toggle tracepoint">
+     </command>
+      <command
+            categoryId="org.erlide.ui.category.tools"
+            id="org.erlide.test_support.run_eunit"
+            name="Run EUnit tests">
+      </command>
+      <command
+            categoryId="org.erlide.ui.category.tools"
+            id="org.erlide.test_support.debug_eunit"
+            name="Debug EUnit tests">
       </command>
    </extension>
    <extension
@@ -215,5 +225,109 @@
             class="org.erlide.test_support.ui.trace.ToggleTracepointHandler"
             commandId="org.erlide.test_support.toggleTrace">
       </handler>
+      <handler
+            class="org.erlide.test_support.popup.actions.RunEunitHandler"
+            commandId="org.erlide.test_support.run_eunit">
+      </handler>
+      <handler
+            class="org.erlide.test_support.popup.actions.DebugEunitHandler"
+            commandId="org.erlide.test_support.debug_eunit">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.erlide.test_support.run_eunit"
+            contextId="org.erlide.ui.erlangEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+X T">
+      </key>
+      <key
+            commandId="org.erlide.test_support.debug_eunit"
+            contextId="org.erlide.ui.erlangEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M2+M3+D T">
+      </key>
+   </extension>
+   <extension
+       point="org.eclipse.debug.ui.launchShortcuts">
+    <shortcut
+          class="org.erlide.test_support.launch.EunitLaunchShortcut"
+          icon="icons/erl/erlang-notext016.gif"
+          id="org.erlide.ui.launch.erlangEunitShortcut"
+          label="Eunit tests"
+          modes="run,debug"
+          path="test">
+        <contextualLaunch>
+            <enablement>
+            <!-- TODO -->
+               <with variable="selection">
+                  <iterate
+                        operator="and">
+                     <adapt
+                           type="org.erlide.engine.model.IErlElement">
+                        <test
+                              args="EUnit"
+                              forcePluginActivation="true"
+                              property="org.erlide.test_support.detect_tests"
+                              value="true">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+        <description
+              description="Run EUnit tests for this project."
+              mode="run">
+        </description>
+        <description
+              description="Debug EUnit tests for this project."
+              mode="debug">
+        </description>
+    </shortcut>
+    <shortcut
+          class="org.erlide.test_support.launch.CTLaunchShortcut"
+          icon="icons/erl/erlang-notext016.gif"
+          id="org.erlide.ui.launch.erlangCTShortcut"
+          label="CommonTest tests"
+          modes="run,debug"
+          path="test">
+        <contextualLaunch>
+            <enablement>
+               <with variable="selection">
+                  <iterate>
+                     <adapt
+                           type="org.erlide.engine.model.IErlElement">
+                        <test
+                              args="CT"
+                              forcePluginActivation="true"
+                              property="org.erlide.test_support.detect_tests"
+                              value="true">
+                        </test>
+                     </adapt>
+                  </iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+        <description
+              description="Run CT tests for this project."
+              mode="run">
+        </description>
+        <description
+              description="Debug tests for this project."
+              mode="debug">
+        </description>
+    </shortcut>
+ </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.erlide.test_support.launch.TestsDetector"
+            id="org.erlide.test_support.tests_detector"
+            namespace="org.erlide.test_support"
+            properties="detect_tests"
+            type="org.erlide.engine.model.IErlElement">
+      </propertyTester>
    </extension>
 </plugin>
